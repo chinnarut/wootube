@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Comment from "./Comment";
+import { axiosInstance } from "../config";
 
 const Container = styled.div``;
 
@@ -35,7 +35,7 @@ const Comments = ({videoId}) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`/comments/${videoId}`);
+        const res = await axiosInstance.get(`/comments/${videoId}`);
 
         setComments(res?.data);
       } catch(err) {

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -7,6 +6,7 @@ import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { loginFailure, loginStart, loginSuccess, logout } from '../redux/userSlice';
+import { axiosInstance } from '../config';
 
 const Container = styled.div`
   display: flex;
@@ -81,7 +81,7 @@ const Signin = () => {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const res = await axios.post("/auth/signin", {name, password});
+      const res = await axiosInstance.post("/auth/signin", {name, password});
       dispatch(loginSuccess(res.data));
       navigate("/");
     } catch(err) {
@@ -93,7 +93,7 @@ const Signin = () => {
     dispatch(loginStart());
     await signInWithPopup(auth, provider)
     .then((response) => {
-      axios.post("/auth/google", {
+      axiosInstance.post("/auth/google", {
         name: response.user.displayName,
         email: response.user.email,
         img: response.user.photoURL   

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
 import styled from "styled-components";
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -10,6 +9,7 @@ import {
   } from "firebase/storage";
   import app from "../firebase";
 import { loginSuccess } from '../redux/userSlice';
+import { axiosInstance } from '../config';
 
 const Container = styled.div`
   width: 100%;
@@ -119,7 +119,7 @@ const UploadImage = ({setOpenProfile}) => {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    const res = await axios.put(`/users/${currentUser._id}`, {...inputs});
+    const res = await axiosInstance.put(`/users/${currentUser._id}`, {...inputs});
 
     setOpenProfile(false);
     dispatch(loginSuccess(res.data));
